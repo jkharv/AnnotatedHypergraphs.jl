@@ -6,6 +6,7 @@ module AnnotatedHypergraphs
    
     export Partiteness, Bipartite, Unipartite
     export Interaction, Directed, Undirected, Hyperedge, AnnotatedHyperedge
+    export SpeciesInteractionNetwork
 
     export species, richness, interactions, role, roles, has_role
 
