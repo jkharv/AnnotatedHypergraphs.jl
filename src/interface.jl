@@ -1,24 +1,29 @@
-species(spp::Bipartite) = vcat(spp.top, spp.bottom)
-species(spp::Unipartite) = vcat(spp.vertices)
+function SpeciesInteractionNetworks.species(int::AnnotatedHyperedge) 
 
-species(int::Directed) = vcat(int.src, int.dst)
-species(int::Undirected) = vcat(int.s1, int.s2)
-species(int::Hyperedge) = int.spp
-species(int::AnnotatedHyperedge) = int.spp
+    return int.spp
+end
 
-species(net::SpeciesInteractionNetwork) = species(net.species)
+function SpeciesInteractionNetworks.species(net::AnnotatedHypergraph)
 
-richness(net::SpeciesInteractionNetwork) = length(species(net))
+    return species(net.species)
+end
 
-interactions(net::SpeciesInteractionNetwork) = 
-    [net.interactions[i] for i ∈ eachindex(net.interactions)]
+function SpeciesInteractionNetworks.richness(net::AnnotatedHypergraph) 
 
-function role(sp::T, int::AnnotatedHyperedge{T, U})::Symbol where {T<:Any, U<:Any}
+    return length(species(net))
+end
+
+function SpeciesInteractionNetworks.interactions(net::AnnotatedHypergraph)
+
+    return [net.interactions[i] for i ∈ eachindex(net.interactions)]
+end
+
+function role(sp::T, int::AnnotatedHyperedge{T})::Symbol where T
 
     return roles(sp, int)[1] 
 end
 
-function roles(sp::T, int::AnnotatedHyperedge{T, U})::Vector{Symbol} where {T<:Any, U<:Any}
+function roles(sp::T, int::AnnotatedHyperedge{T}) :: Vector{RoleType} where T
 
     indices = findall(x -> x == sp, int.spp)
 
@@ -30,9 +35,36 @@ function roles(sp::T, int::AnnotatedHyperedge{T, U})::Vector{Symbol} where {T<:A
     return int.roles[indices]
 end
 
-function has_role(sp::T, 
-    int::AnnotatedHyperedge{T, U}, 
-    role::Symbol)::Bool where {T<:Any, U<:Any}
+function has_role(sp::T, int::AnnotatedHyperedge{T}, role::RoleType)::Bool where T
 
     return role ∈ roles(sp, int)
+end
+
+function subject(int::AnnotatedHyperedge{T})::T where T
+
+    sbj = with_role(:subject, int)
+
+    if length(sbj) ≠ 1
+
+        error("`subject()` only works if an interaction has exactly one subject species")
+    end
+
+    return first(sbj)
+end
+
+function object(int::AnnotatedHyperedge{T})::T where T
+
+    obj = with_role(:object, int)
+
+    if length(obj) ≠ 1
+
+        error("`object()` only works if an interaction has exactly one subject species")
+    end
+
+    return first(obj)
+end
+
+function isloop(int::AnnotatedHyperedge)
+
+    return subject(int) == object(int)
 end

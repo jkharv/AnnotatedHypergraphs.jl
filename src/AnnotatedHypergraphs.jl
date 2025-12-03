@@ -1,13 +1,23 @@
 module AnnotatedHypergraphs
 
-    include("./types.jl")
-    include("./pretty_printing.jl")
-    include("./interface.jl")
-   
-    export Partiteness, Bipartite, Unipartite
-    export Interaction, Directed, Undirected, Hyperedge, AnnotatedHyperedge
-    export SpeciesInteractionNetwork
+using SpeciesInteractionNetworks
 
-    export species, richness, interactions, role, roles, has_role
+include("types.jl")
+export AnnotatedHyperedge, AnnotatedHypergraph
+
+include("interface.jl")
+export species, richness, interactions
+export isloop
+export role, roles, has_role, with_role, subject, object
+
+include("degree.jl")
+export degree
+export generality, vulnerability
+
+include("paths.jl")
+export shortestpath, pathbetween
+
+include("distance_to_base.jl")
+export distancetobase
 
 end
