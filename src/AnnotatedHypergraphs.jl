@@ -15,7 +15,7 @@ export degree
 export generality, vulnerability
 
 include("paths.jl")
-export shortestpath, pathbetween
+export shortestpath
 
 include("distance_to_base.jl")
 export distancetobase

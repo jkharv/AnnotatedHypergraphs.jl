@@ -5,7 +5,7 @@ end
 
 function SpeciesInteractionNetworks.species(net::AnnotatedHypergraph)
 
-    return species(net.species)
+    return species(net.nodes)
 end
 
 function SpeciesInteractionNetworks.richness(net::AnnotatedHypergraph) 
@@ -15,7 +15,7 @@ end
 
 function SpeciesInteractionNetworks.interactions(net::AnnotatedHypergraph)
 
-    return [net.interactions[i] for i ∈ eachindex(net.interactions)]
+    return [net.edges[i] for i ∈ eachindex(net.edges)]
 end
 
 function role(sp::T, int::AnnotatedHyperedge{T})::Symbol where T
@@ -38,6 +38,15 @@ end
 function has_role(sp::T, int::AnnotatedHyperedge{T}, role::RoleType)::Bool where T
 
     return role ∈ roles(sp, int)
+end
+
+function with_role(
+    role::RoleType, 
+    int::AnnotatedHyperedge{T})::Vector{T} where T
+
+    indices = findall(x -> x == role, int.roles)
+
+    return int.spp[indices]
 end
 
 function subject(int::AnnotatedHyperedge{T})::T where T

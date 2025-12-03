@@ -8,16 +8,16 @@ struct AnnotatedHyperedge{T}
     roles::Vector{RoleType}
 end
 
-struct AnnotatedHypergraph
+struct AnnotatedHypergraph{T}
 
-    nodes::Unipartite
-    edges::Vector{AnnotatedHyperedge}
+    nodes::Unipartite{T}
+    edges::Vector{AnnotatedHyperedge{T}}
 
     function AnnotatedHypergraph(
-        nodes::Unipartite, 
-        edges::Vector{AnnotatedHyperedge}
-    ) 
+        nodes::Unipartite{T}, 
+        edges::Vector{AnnotatedHyperedge{T}}
+    ) where T
 
-        new(nodes, edges)
+        new{T}(nodes, edges)
     end
 end

@@ -12,45 +12,7 @@ function SpeciesInteractionNetworks.shortestpath(
     shortestpath(BellmanFord, N, sp; kwargs...)
 end
 
-function pathbetween(
-    ::Type{SPM}, 
-    N::AnnotatedHypergraph, 
-    source::T, 
-    target::T
-    ) where {SPM <: ShortestPathMethod, T}
-
-    @assert source in species(N)
-    @assert target in species(N)
-
-    _, pred = shortestpath(SPM, N, source; include_paths=true)
-
-    if !(target in keys(pred))
-        return Vector{eltype(N)}()
-    end
-
-    path = eltype(N)[]
-
-    reached = target
-    while reached != source
-        through = pred[reached]
-        push!(path, (through, reached, N[through, reached]))
-        pop!(pred, reached)
-        reached = through
-    end
-
-    return reverse(path)
-end
-
-function pathbetween(
-    N::AnnotatedHypergraph, 
-    source::T, 
-    target::T
-    ) where {T}
-
-    return pathbetween(BellmanFord, N, source, target)
-end
-
-function shortestpath(
+function SpeciesInteractionNetworks.shortestpath(
     ::Type{BellmanFord},
     N::AnnotatedHypergraph,
     sp::T;
