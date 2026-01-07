@@ -4,9 +4,7 @@ version = "0.1.0"
 authors = ["Jake Harvey <jacob.harvey@mail.mcgill.ca>"]
 
 [deps]
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 SpeciesInteractionNetworks = "49e116ef-912f-4766-9e56-896a49944adc"
 
 [compat]
-Revise = "3.12.3"
 SpeciesInteractionNetworks = "0.0.1"
