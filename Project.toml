@@ -1,0 +1,10 @@
+name = "AnnotatedHypergraphs"
+uuid = "121eab65-6eab-4c2f-bb7d-b6867ee8c3ea"
+version = "0.1.0"
+authors = ["Jake Harvey <jacob.harvey@mail.mcgill.ca>"]
+
+[deps]
+SpeciesInteractionNetworks = "49e116ef-912f-4766-9e56-896a49944adc"
+
+[compat]
+SpeciesInteractionNetworks = "0.0.1"
