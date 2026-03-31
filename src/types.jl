@@ -21,3 +21,18 @@ struct AnnotatedHypergraph{T}
         new{T}(nodes, edges)
     end
 end
+
+function AnnotatedHypergraph(
+    web::SpeciesInteractionNetwork{Unipartite{T}, Binary{Bool}}
+    )::AnnotatedHypergraph{T} where T
+
+    hyperedges = Vector{AnnotatedHyperedge{T}}(undef, (length ∘ interactions)(web))
+
+    for (i, intx) in (enumerate ∘ interactions)(web)
+
+        sbj, obj, _ = intx
+        hyperedges[i] = AnnotatedHyperedge([sbj, obj], [:subject, :object])
+    end
+
+    return AnnotatedHypergraph(copy(web.nodes), hyperedges)
+end
