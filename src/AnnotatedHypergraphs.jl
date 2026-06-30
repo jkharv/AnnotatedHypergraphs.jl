@@ -8,7 +8,7 @@ export AnnotatedHyperedge, AnnotatedHypergraph
 include("interface.jl")
 export species, richness, interactions
 export isloop
-export role, roles, has_role, with_role, subject, object
+export role, roles, has_role, with_role, subject, object, modifiers
 export subset, trophic_network
 
 include("degree.jl")
@@ -20,5 +20,7 @@ export shortestpath
 
 include("distance_to_base.jl")
 export distancetobase
+
+include("pretty_printing.jl")
 
 end

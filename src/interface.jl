@@ -73,6 +73,11 @@ function object(int::AnnotatedHyperedge{T})::T where T
     return first(obj)
 end
 
+function modifiers(int::AnnotatedHyperedge{T})::Vector{T} where T
+
+    return  setdiff(species(int), [subject(int), object(int)])
+end
+
 function isloop(int::AnnotatedHyperedge)
 
     return subject(int) == object(int)
