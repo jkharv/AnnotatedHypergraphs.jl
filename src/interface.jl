@@ -77,3 +77,60 @@ function isloop(int::AnnotatedHyperedge)
 
     return subject(int) == object(int)
 end
+
+function isproducer(web::AnnotatedHypergraph{T}, sp::T)::Bool where T
+
+    @assert sp ∈ species(web)
+
+    for intx ∈ interactions(web)
+
+        if isloop(intx)
+
+            continue
+        elseif subject(intx) == sp
+
+            return false
+        end
+    end
+
+    return true
+end
+
+function isconsumer(web::AnnotatedHypergraph{T}, sp::T)::Bool where T
+
+    return !isproducer(web, sp)
+end
+
+"""
+This only works on unipartite networks right now.
+"""
+function subset(
+    web::AnnotatedHypergraph{T}, 
+    spp::Vector{T}
+    )::AnnotatedHypergraph{T} where T
+
+    @assert spp ⊆ species(web) 
+
+    sub_edges = filter(x -> species(x) ⊆ spp, interactions(web))
+    sub_spp   = Unipartite(spp)
+    
+    return AnnotatedHypergraph(sub_spp, sub_edges)
+end
+
+function trophic_network(
+    web::AnnotatedHypergraph{T}
+    )::AnnotatedHypergraph{T} where T
+
+    intxs = Vector{eltype(interactions(web))}(undef, length(interactions(web)))
+
+    for (intx, i) in zip(interactions(web), eachindex(intxs))
+
+        intxs[i] = AnnotatedHyperedge(
+            [subject(intx), object(intx)], 
+            [:subject, :object]
+        )
+
+    end
+
+    return AnnotatedHypergraph(web.nodes, intxs)
+end
