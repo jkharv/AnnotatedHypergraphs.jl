@@ -29,7 +29,7 @@ end
 
 function Base.show(io::IO, int::Undirected)
  
-    str = "Undirected itneraction $(int.src) ↔ $(int.dst)"
+    str = "Undirected interaction $(int.src) ↔ $(int.dst)"
    
     print(io, str)
 end
